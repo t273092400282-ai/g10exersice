@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>نشاط تفاعلي - ورقة عمل السلاسل النصية</title>
+    <style>
+        :root {
+            --bg-color: #f4f0ff;
+            --card-bg: #ffffff;
+            --primary-color: #6c5ce7;
+            --secondary-color: #a29bfe;
+            --accent-pink: #fd79a8;
+            --accent-green: #00b894;
+            --text-color: #2d3436;
+            --pycharm-bg: #1e1e1e;
+            --pycharm-text: #a9b7c6;
+            --console-bg: #121212;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 950px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-pink));
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+
+        header h1 {
+            margin: 0 0 10px 0;
+            font-size: 26px;
+        }
+
+        header p {
+            margin: 0;
+            font-size: 16px;
+            opacity: 0.95;
+        }
+
+        /* Student Info Box */
+        .student-info-card {
+            background-color: var(--card-bg);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 25px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            border: 2px solid var(--secondary-color);
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: space-around;
+            align-items: center;
+        }
+
+        .input-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex: 1;
+            min-width: 250px;
+        }
+
+        .input-group label {
+            font-weight: bold;
+            color: var(--primary-color);
+            font-size: 16px;
+            white-space: nowrap;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 10px 15px;
+            border: 2px solid #dfe6e9;
+            border-radius: 10px;
+            font-size: 16px;
+            outline: none;
+            transition: border-color 0.3s;
+            font-family: inherit;
+        }
+
+        .input-group input:focus {
+            border-color: var(--primary-color);
+        }
+
+        /* Question Cards */
+        .question-card {
+            background-color: var(--card-bg);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            border-right: 6px solid var(--primary-color);
+        }
+
+        .question-card h2 {
+            color: var(--primary-color);
+            font-size: 20px;
+            margin-top: 0;
+        }
+
+        .task-box {
+            background-color: #f8f9fa;
+            border: 1px dashed var(--secondary-color);
+            padding: 12px 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        /* IDE Window */
+        .ide-container {
+            background-color: var(--pycharm-bg);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+            margin-bottom: 15px;
+        }
+
+        .ide-header {
+            background-color: #2d2d2d;
+            padding: 10px 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border-bottom: 1px solid #3c3f41;
+        }
+
+        .dot {
+            width: 13px;
+            height: 13px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+        .dot-red { background-color: #ff5f56; }
+        .dot-yellow { background-color: #ffbd2e; }
+        .dot-green { background-color: #27c93f; }
+
+        .ide-title {
+            color: #b0b0b0;
+            font-size: 13px;
+            font-family: 'Consolas', monospace;
+            margin-right: 10px;
+        }
+
+        .editor-label {
+            color: #6a8759;
+            font-size: 14px;
+            padding: 8px 15px 0 15px;
+            font-family: 'Consolas', monospace;
+            font-weight: bold;
+        }
+
+        /* Textarea Editor */
+        textarea.code-editor {
+            width: 100%;
+            height: 130px;
+            background-color: var(--pycharm-bg);
+            color: #f8f8f2;
+            border: none;
+            padding: 12px 15px;
+            font-family: 'Consolas', 'Courier New', monospace;
+            font-size: 18px;
+            font-weight: 600;
+            line-height: 1.5;
+            letter-spacing: 0.5px;
+            resize: vertical;
+            box-sizing: border-box;
+            outline: none;
+            direction: ltr;
+            text-align: left;
+        }
+
+        .console-label {
+            background-color: #212121;
+            color: #aaa;
+            font-size: 13px;
+            padding: 6px 15px;
+            border-top: 1px solid #333;
+            font-family: 'Consolas', monospace;
+        }
+
+        /* Console Output */
+        .console-output {
+            background-color: var(--console-bg);
+            color: #a9b7c6;
+            padding: 12px 15px;
+            font-family: 'Consolas', 'Courier New', monospace;
+            font-size: 17px;
+            font-weight: 500;
+            min-height: 45px;
+            direction: ltr;
+            text-align: left;
+            border-top: 1px solid #2d2d2d;
+            white-space: pre-wrap;
+        }
+
+        /* Buttons & Feedback */
+        .btn-run {
+            background-color: var(--accent-green);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-run:hover {
+            background-color: #00a080;
+            transform: translateY(-2px);
+        }
+
+        .feedback {
+            margin-top: 15px;
+            padding: 14px 18px;
+            border-radius: 8px;
+            display: none;
+            font-weight: bold;
+            font-size: 15px;
+            line-height: 1.5;
+        }
+
+        .feedback.correct {
+            background-color: #e6fffa;
+            color: #00b894;
+            border: 1px solid #b2f5ea;
+        }
+
+        .feedback.incorrect {
+            background-color: #fff5f5;
+            color: #e17055;
+            border: 1px solid #fed7d7;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            padding: 15px;
+            color: #7f8c8d;
+            font-size: 15px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>نشاط تفاعلي: ورقة عمل السلاسل النصية (Strings) 💻</h1>
+        <p>ثانوية الروضة بنات | تقديم المعلمة: أ / هند الراشد</p>
+    </header>
+
+    <!-- بطاقة معلومات المتعلمة -->
+    <div class="student-info-card">
+        <div class="input-group">
+            <label for="studentName">👤 اسم المتعلمة:</label>
+            <input type="text" id="studentName" placeholder="اكتبي اسمك الثلاثي هنا...">
+        </div>
+        <div class="input-group">
+            <label for="studentClass">🏫 الصف:</label>
+            <input type="text" id="studentClass" placeholder="مثال: 10 / 1">
+        </div>
+    </div>
+
+    <!-- السؤال 1 -->
+    <div class="question-card">
+        <h2>السؤال (1): حساب طول النص (String Length)</h2>
+        <div class="task-box">
+            <strong>المطلوب:</strong> اكتب الكود الذي يحسب طول المتغير <code>fruit = 'orange'</code> ويطبعه.
+        </div>
+        <div class="ide-container">
+            <div class="ide-header">
+                <span class="dot dot-red"></span><span class="dot dot-yellow"></span><span class="dot dot-green"></span>
+                <span class="ide-title">main.py (PyCharm)</span>
+            </div>
+            <div class="editor-label"># اكتب الكود البرمجي هنا:</div>
+            <textarea id="code1" class="code-editor" spellcheck="false">fruit = 'orange'
+# أكملمي دالة حساب الطول والطباعة:
+print( )</textarea>
+            <div class="console-label">Run Output Window:</div>
+            <div id="output1" class="console-output">اضغطي على "تشغيل الكود" لرؤية النتيجة...</div>
+        </div>
+        <button class="btn-run" onclick="runQ1()">▶ تشغيل الكود (Run)</button>
+        <div id="feedback1" class="feedback"></div>
+    </div>
+
+    <!-- السؤال 2 -->
+    <div class="question-card">
+        <h2>السؤال (2): حساب الطول مع وجود المسافات الخالية</h2>
+        <div class="task-box">
+            <strong>المطلوب:</strong> اكتب الكود الذي يحسب طول المتغير <code>Fruitfamily = ' orange and banana'</code> ويطبعه.
+        </div>
+        <div class="ide-container">
+            <div class="ide-header">
+                <span class="dot dot-red"></span><span class="dot dot-yellow"></span><span class="dot dot-green"></span>
+                <span class="ide-title">main.py (PyCharm)</span>
+            </div>
+            <div class="editor-label"># اكتب الكود البرمجي هنا:</div>
+            <textarea id="code2" class="code-editor" spellcheck="false">Fruitfamily = ' orange and banana'
+# أكملمي دالة حساب الطول والطباعة:
+print( )</textarea>
+            <div class="console-label">Run Output Window:</div>
+            <div id="output2" class="console-output">اضغطي على "تشغيل الكود" لرؤية النتيجة...</div>
+        </div>
+        <button class="btn-run" onclick="runQ2()">▶ تشغيل الكود (Run)</button>
+        <div id="feedback2" class="feedback"></div>
+    </div>
+
+    <!-- السؤال 3 -->
+    <div class="question-card">
+        <h2>السؤال (3): الوصول لأحرف النص عبر الفهرس (Indexing)</h2>
+        <div class="task-box">
+            <strong>المطلوب:</strong> اكتب الكود الذي يقوم بطباعة الحرف الأول والحرف الأخير في المتغير <code>fruit = 'orange'</code>.
+        </div>
+        <div class="ide-container">
+            <div class="ide-header">
+                <span class="dot dot-red"></span><span class="dot dot-yellow"></span><span class="dot dot-green"></span>
+                <span class="ide-title">main.py (PyCharm)</span>
+            </div>
+            <div class="editor-label"># اكتب الكود البرمجي هنا:</div>
+            <textarea id="code3" class="code-editor" spellcheck="false">Fruit = 'orange'
+# أكملمي الفهارس المطلوبة للطباعة:
+print(Fruit[ ])
+print(Fruit[ ])</textarea>
+            <div class="console-label">Run Output Window:</div>
+            <div id="output3" class="console-output">اضغطي على "تشغيل الكود" لرؤية النتيجة...</div>
+        </div>
+        <button class="btn-run" onclick="runQ3()">▶ تشغيل الكود (Run)</button>
+        <div id="feedback3" class="feedback"></div>
+    </div>
+
+    <!-- السؤال 4 -->
+    <div class="question-card">
+        <h2>السؤال (4): ربط السلاسل النصية (Concatenation)</h2>
+        <div class="task-box">
+            <strong>المطلوب:</strong> ربط المتغيرات الثلاثة <code>fruit1</code> و <code>fruit2</code> و <code>fruit3</code> يفصل بينها مسافات، وطباعة النتيجة لتظهر: <code>orange apple banana</code>
+        </div>
+        <div class="ide-container">
+            <div class="ide-header">
+                <span class="dot dot-red"></span><span class="dot dot-yellow"></span><span class="dot dot-green"></span>
+                <span class="ide-title">main.py (PyCharm)</span>
+            </div>
+            <div class="editor-label"># اكتب الكود البرمجي هنا:</div>
+            <textarea id="code4" class="code-editor" spellcheck="false">fruit1 = 'orange'
+fruit2 = 'apple'
+fruit3 = 'banana'
+
+# أكملمي الكود لربط المتغيرات وطباعتها:
+Fruitfamily = 
+print(Fruitfamily)</textarea>
+            <div class="console-label">Run Output Window:</div>
+            <div id="output4" class="console-output">اضغطي على "تشغيل الكود" لرؤية النتيجة...</div>
+        </div>
+        <button class="btn-run" onclick="runQ4()">▶ تشغيل الكود (Run)</button>
+        <div id="feedback4" class="feedback"></div>
+    </div>
+
+    <!-- السؤال 5 -->
+    <div class="question-card">
+        <h2>السؤال (5): تكرار السلاسل النصية (String Replication)</h2>
+        <div class="task-box">
+            <strong>المطلوب:</strong> استخدام معامل التكرار <code>*</code> لطباعة:
+            <ul>
+                <li>النص <code>'333'</code> مكرراً 3 مرات.</li>
+                <li>النص <code>'999'</code> مكرراً 6 مرات.</li>
+            </ul>
+        </div>
+        <div class="ide-container">
+            <div class="ide-header">
+                <span class="dot dot-red"></span><span class="dot dot-yellow"></span><span class="dot dot-green"></span>
+                <span class="ide-title">main.py (PyCharm)</span>
+            </div>
+            <div class="editor-label"># اكتب الكود البرمجي هنا:</div>
+            <textarea id="code5" class="code-editor" spellcheck="false"># أكملمي أسطر الطباعة باستخدام معامل الضرب *:
+print('333' )
+print('999' )</textarea>
+            <div class="console-label">Run Output Window:</div>
+            <div id="output5" class="console-output">اضغطي على "تشغيل الكود" لرؤية النتيجة...</div>
+        </div>
+        <button class="btn-run" onclick="runQ5()">▶ تشغيل الكود (Run)</button>
+        <div id="feedback5" class="feedback"></div>
+    </div>
+
+    <!-- السؤال 6 -->
+    <div class="question-card">
+        <h2>السؤال (6): اقتطاع السلاسل النصية (Slicing)</h2>
+        <div class="task-box">
+            <strong>المطلوب:</strong> طباعة طول النص <code>Email</code>، ثم اقتطاع النص بالكامل، ثم اقتطاع أول 9 أحرف فقط.
+        </div>
+        <div class="ide-container">
+            <div class="ide-header">
+                <span class="dot dot-red"></span><span class="dot dot-yellow"></span><span class="dot dot-green"></span>
+                <span class="ide-title">main.py (PyCharm)</span>
+            </div>
+            <div class="editor-label"># اكتب الكود البرمجي هنا:</div>
+            <textarea id="code6" class="code-editor" spellcheck="false">Email = 'Student dana email is/ S4532@moe.edu.kw'
+
+# أكملمي الأوامر المطلوبة:
+print(len(Email))
+print(Email[ : ])
+print(Email[ : ])</textarea>
+            <div class="console-label">Run Output Window:</div>
+            <div id="output6" class="console-output">اضغطي على "تشغيل الكود" لرؤية النتيجة...</div>
+        </div>
+        <button class="btn-run" onclick="runQ6()">▶ تشغيل الكود (Run)</button>
+        <div id="feedback6" class="feedback"></div>
+    </div>
+
+    <footer>
+        عمل مميز ومبدع عزيزتي المتعلمة! إعداد المعلمة: أ / هند الراشد - ثانوية الروضة بنات ✨
+    </footer>
+</div>
+
+<script>
+    function getStudentName() {
+        const name = document.getElementById('studentName').value.trim();
+        return name ? name : "عزيزتي المتعلمة";
+    }
+
+    // Q1
+    function runQ1() {
+        const code = document.getElementById('code1').value;
+        const outputDiv = document.getElementById('output1');
+        const feedbackDiv = document.getElementById('feedback1');
+        const name = getStudentName();
+        feedbackDiv.style.display = 'block';
+
+        if (code.includes('len(fruit)') || code.includes('len(Fruit)')) {
+            outputDiv.innerText = "6\n\nProcess finished with exit code 0";
+            feedbackDiv.className = "feedback correct";
+            feedbackDiv.innerHTML = `🌟 أحسنتِ يا ${name}! إجابة صحيحة. الدالة len() تحسب عدد أحرف الكلمة 'orange' وهي 6 أحرف.`;
+        } else {
+            outputDiv.innerText = "Error in output";
+            feedbackDiv.className = "feedback incorrect";
+            feedbackDiv.innerHTML = "❌ حاولِ مرة أخرى. استخدمي الدالة len(fruit) داخل أمر الطباعة print.";
+        }
+    }
+
+    // Q2
+    function runQ2() {
+        const code = document.getElementById('code2').value;
+        const outputDiv = document.getElementById('output2');
+        const feedbackDiv = document.getElementById('feedback2');
+        const name = getStudentName();
+        feedbackDiv.style.display = 'block';
+
+        if (code.includes('len(Fruitfamily)') || code.includes('len(fruitfamily)')) {
+            outputDiv.innerText = "18\n\nProcess finished with exit code 0";
+            feedbackDiv.className = "feedback correct";
+            feedbackDiv.innerHTML = `🌟 ممتازة يا ${name}! إجابة صحيحة. الدالة len() تحسب جميع الحروف والمسافات الخالية وتساوي 18.`;
+        } else {
+            outputDiv.innerText = "Error in output";
+            feedbackDiv.className = "feedback incorrect";
+            feedbackDiv.innerHTML = "❌ حاولِ مرة أخرى. اكتبِ len(Fruitfamily) داخل أمر الطباعة.";
+        }
+    }
+
+    // Q3
+    function runQ3() {
+        const code = document.getElementById('code3').value;
+        const outputDiv = document.getElementById('output3');
+        const feedbackDiv = document.getElementById('feedback3');
+        const name = getStudentName();
+        feedbackDiv.style.display = 'block';
+
+        if ((code.includes('[0]') && code.includes('[5]')) || (code.includes('[0]') && code.includes('[-1]'))) {
+            outputDiv.innerText = "o\ne\n\nProcess finished with exit code 0";
+            feedbackDiv.className = "feedback correct";
+            feedbackDiv.innerHTML = `🌟 رائعة يا ${name}! الفهرس [0] يمثل الحرف الأول (o)، والفهرس [5] أو [-1] يمثل الحرف الأخير (e).`;
+        } else {
+            outputDiv.innerText = "IndexError or Invalid Output";
+            feedbackDiv.className = "feedback incorrect";
+            feedbackDiv.innerHTML = "❌ حاولِ مرة أخرى. تذكري أن الفهرس يبدأ من 0، والحرف الأخير في كلمة orange هو الفهرس 5.";
+        }
+    }
+
+    // Q4
+    function runQ4() {
+        const code = document.getElementById('code4').value;
+        const outputDiv = document.getElementById('output4');
+        const feedbackDiv = document.getElementById('feedback4');
+        const name = getStudentName();
+        feedbackDiv.style.display = 'block';
+
+        if (code.includes("fruit1 + ' ' + fruit2 + ' ' + fruit3") || 
+            code.includes('fruit1 + " " + fruit2 + " " + fruit3') ||
+            code.includes("fruit1+' '+fruit2+' '+fruit3")) {
+            
+            outputDiv.innerText = "orange apple banana\n\nProcess finished with exit code 0";
+            feedbackDiv.className = "feedback correct";
+            feedbackDiv.innerHTML = `🌟 إجابة متميزة يا ${name}! تم ربط السلاسل النصية بنجاح مع إضافة المسافات الخالية.`;
+        } else if(code.includes("fruit1") && code.includes("fruit2") && code.includes("fruit3")) {
+            outputDiv.innerText = "orangeapplebanana\n\nProcess finished with exit code 0";
+            feedbackDiv.className = "feedback incorrect";
+            feedbackDiv.innerHTML = `⚠️ انتبعي يا ${name}: النتيجة تنقصها المسافات بين الكلمات. استخدمي ' ' لربط المسافات بين المتغيرات.`;
+        } else {
+            outputDiv.innerText = "SyntaxError: invalid syntax";
+            feedbackDiv.className = "feedback incorrect";
+            feedbackDiv.innerHTML = "❌ حاولِ مرة أخرى. تأكدي من جمع المتغيرات الثلاثة مع ربط المسافات.";
+        }
+    }
+
+    // Q5
+    function runQ5() {
+        const code = document.getElementById('code5').value;
+        const outputDiv = document.getElementById('output5');
+        const feedbackDiv = document.getElementById('feedback5');
+        const name = getStudentName();
+        feedbackDiv.style.display = 'block';
+
+        const hasPart1 = code.includes("'333' * 3") || code.includes('"333" * 3') || code.includes("'333'*3");
+        const hasPart2 = code.includes("'999' * 6") || code.includes('"999" * 6') || code.includes("'999'*6");
+
+        if (hasPart1 && hasPart2) {
+            outputDiv.innerText = "333333333\n999999999999999999\n\nProcess finished with exit code 0";
+            feedbackDiv.className = "feedback correct";
+            feedbackDiv.innerHTML = `🌟 إجابة رائعة يا ${name}! معامل الضرب (*) يكرر النص بالعدد المحدد.`;
+        } else {
+            outputDiv.innerText = "Error in output";
+            feedbackDiv.className = "feedback incorrect";
+            feedbackDiv.innerHTML = "❌ حاولِ مرة أخرى. استخدمي معامل الضرب (*) لضرب '333' في 3 و '999' في 6 داخل أسر الطباعة.";
+        }
+    }
+
+    // Q6
+    function runQ6() {
+        const code = document.getElementById('code6').value;
+        const outputDiv = document.getElementById('output6');
+        const feedbackDiv = document.getElementById('feedback6');
+        const name = getStudentName();
+        feedbackDiv.style.display = 'block';
+
+        const hasFullSlice = code.includes("[0:]") || code.includes("[:]");
+        const hasNineSlice = code.includes("[:9]") || code.includes("[0:9]");
+
+        if (hasFullSlice && hasNineSlice) {
+            outputDiv.innerText = "39\nStudent dana email is/ S4532@moe.edu.kw\nStudent d\n\nProcess finished with exit code 0";
+            feedbackDiv.className = "feedback correct";
+            feedbackDiv.innerHTML = `🌟 مبدعة يا ${name}! [0:] يقتطع النص بالكامل، و [:9] يقتطع أول 9 أحرف فقط.`;
+        } else {
+            outputDiv.innerText = "Error in output";
+            feedbackDiv.className = "feedback incorrect";
+            feedbackDiv.innerHTML = "❌ حاولِ مرة أخرى. استخدمي [0:] لاقتطاع النص كاملاً و [:9] لاقتطاع أول 9 أحرف.";
+        }
+    }
+</script>
+
+</body>
+</html>
